@@ -1,5 +1,8 @@
 import React, { useState, useContext, useRef } from "react";
 import TodoListContext from "../store/todolist-context";
+import { Button, Input, TextField, Box } from "@mui/material";
+import { LocalizationProvider, DatePicker } from "@mui/lab";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
 
 const Form = () => {
   const [content, setContent] = useState("");
@@ -11,9 +14,10 @@ const Form = () => {
     setContent(e.target.value);
   };
   const dateChangeHandler = (e) => {
-    e.preventDefault();
-    setDate(e.target.value.toLocaleString("ja-JP"));
-    console.log(date);
+    // e.preventDefault();
+    // setDate(e.target.value.toLocaleString("ja-JP"));
+    setDate(e);
+    // console.log(date);
   };
 
   const formSubmitHandler = (e) => {
@@ -30,27 +34,33 @@ const Form = () => {
     });
   };
   return (
-    <form onSubmit={formSubmitHandler}>
-      <div>
-        <label htmlFor="content">content</label>
-        <input
-          id="content"
-          type="text"
-          value={content}
-          onChange={contentChangeHandler}
-        ></input>
-      </div>
-      <div>
-        <label htmlFor="date">date</label>
-        <input
-          id="date"
-          type="date"
+    <Box component="form" onSubmit={formSubmitHandler} noValidate sx={{ m: 3 }}>
+      <TextField
+        id="content"
+        label="content"
+        variant="outlined"
+        value={content}
+        onChange={contentChangeHandler}
+        fullWidth
+        margin="normal"
+      />
+
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <DatePicker
+          label="Date"
           value={date}
           onChange={dateChangeHandler}
-        ></input>
-      </div>
-      <button type="submit">Add</button>
-    </form>
+          inputFormat="yyyy/MM/dd"
+          mask="____/__/__"
+          renderInput={(params) => (
+            <TextField {...params} fullWidth margin="normal" />
+          )}
+        />
+      </LocalizationProvider>
+      <Button variant="contained" type="submit" fullWidth sx={{ mt: 2, mb: 2 }}>
+        Add
+      </Button>
+    </Box>
   );
 };
 export default Form;

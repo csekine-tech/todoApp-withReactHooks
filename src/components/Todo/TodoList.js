@@ -7,7 +7,7 @@ const TodoList = () => {
   const todos = todoListCtx.todos;
 
   return (
-    <ul>
+    <ul style={{ listStyle: "none", paddingLeft: "0" }}>
       {todos.map((todo) => (
         <Todo
           key={todo.id}
